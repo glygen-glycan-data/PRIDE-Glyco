@@ -22,11 +22,14 @@ payload = {
   }
 }
 
+if len(sys.argv) > 1:
+    payload = json.loads(open(sys.argv[1]).read())
+
 pagesize = 100
 payload["limit"] = pagesize
 request = '/pride/_find'
 response = couch_webservice_request(request,payload,method='POST',
-                                    username='admin', password='admin')
+                                    username='admin',password='admin')
 payload["bookmark"] = response["bookmark"]
 all_docs = response["docs"]
 nret = len(all_docs)
@@ -36,7 +39,7 @@ while nret >= pagesize:
     # print(json.dumps(payload,indent=2))
     payload["skip"] = len(all_docs)
     response = couch_webservice_request(request,payload,method='POST',
-                                        username='admin', password='admin')
+                                        username='admin',password='admin')
     # print(response)
     # print(sorted([ d['accession'] for d in response["docs"]])[:5])
     all_docs.extend(response["docs"])

@@ -1,0 +1,13 @@
+{
+  "selector": {
+    "references": {
+      "$elemMatch": {
+        "pubmedID": {
+          "$in": [
+            ___XXX_IDS_XXX___
+          ]
+        }
+      }
+    }
+  }
+}

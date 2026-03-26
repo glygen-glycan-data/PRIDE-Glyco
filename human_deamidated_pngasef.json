@@ -1,0 +1,18 @@
+{
+  "selector": {
+    "submissionType": "COMPLETE",
+    "organisms": {
+      "$elemMatch": {
+        "name": "Homo sapiens (human)"
+      }
+    },
+    "identifiedPTMStrings": {
+      "$elemMatch": {
+        "name" : {
+          "$in": ["deamidated residue","Deamidated"]
+        }
+      }
+    },
+    "$text": "sampleProcessingProtocol:PNGase"
+  }
+}
