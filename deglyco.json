@@ -1,0 +1,9 @@
+{
+  "selector": {
+    "accession": {
+      "$in": [
+         ___XXX_IDS_XXX___
+      ]
+    }
+  }
+}

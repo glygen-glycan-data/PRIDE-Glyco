@@ -9,7 +9,7 @@ try:
     ids = [ int(i) for i in ids ]
 except ValueError:
     pass
-payloadstr = payloadstr.replace("___XXX_IDS_XXX___",",".join(map(lambda s: '%r'%(s,),ids)))
+payloadstr = payloadstr.replace("___XXX_IDS_XXX___",",".join(map(lambda s: ('%r'%(s,)).replace('\'','"'),ids)))
 payload = json.loads(payloadstr)
 
 pagesize = 100
