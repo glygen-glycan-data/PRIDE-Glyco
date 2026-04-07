@@ -1,10 +1,13 @@
 #!.venv/bin/python
 
-import sys, json
+import sys, json, os, os.path
 from couchws import *
 
 payloadstr = open(sys.argv[1]).read()
-ids = open(sys.argv[2]).read().split()
+if not os.path.isfile(sys.argv[2]):
+    ids = [ sys.argv[2] ]
+else:
+    ids = open(sys.argv[2]).read().split()
 try:
     ids = [ int(i) for i in ids ]
 except ValueError:
