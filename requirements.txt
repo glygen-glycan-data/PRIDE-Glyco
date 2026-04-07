@@ -1,1 +1,12 @@
+numpy<2
+pandas<2.3
 pridepy
+openai
+python-dotenv
+pyarrow==14.0.2
+feather-format
+nltk
+scipy==1.13.1
+scikit-learn==1.4.2
+torch
+qdrant-client
