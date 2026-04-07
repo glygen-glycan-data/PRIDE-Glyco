@@ -214,3 +214,5 @@ glygen_uniprot_sites/
 *.vdb/
 relational2json/
 projects.json
+*.csv
+*.fth
