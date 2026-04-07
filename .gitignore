@@ -209,3 +209,7 @@ __marimo__/
 projects/
 couchdb/data/
 PRIDE/
+attic/
+glygen_uniprot_sites/
+*.vdb/
+relational2json/
