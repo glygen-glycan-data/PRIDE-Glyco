@@ -9,7 +9,7 @@ if not os.path.isfile(sys.argv[2]):
 else:
     ids = open(sys.argv[2]).read().split()
 try:
-    ids = [ int(i) for i in ids ]
+    ids = ids + [ int(i) for i in ids ]
 except ValueError:
     pass
 payloadstr = payloadstr.replace("___XXX_IDS_XXX___",",".join(map(lambda s: ('%r'%(s,)).replace('\'','"'),ids)))
