@@ -217,3 +217,4 @@ projects.json
 *.csv
 *.fth
 pride-embeddings1.zip
+qdrant/
