@@ -4,7 +4,6 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import time
 import pandas as pd
-from lockfile import FileLock
 import argparse
 from distproc import DistributedProcessing as dp
 
@@ -27,7 +26,8 @@ dp.add_arguments(parser)
 load_dotenv()
 client = OpenAI()
 
-MODEL="text-embedding-3-small"
+# MODEL="text-embedding-3-small"
+MODEL="text-embedding-3-large"
 def get_embedding(client, *texts, model=MODEL):
     response = client.embeddings.create(
         input=texts,
