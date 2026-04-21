@@ -141,30 +141,46 @@ if __name__ == "__main__":
             tn |= tn1
         tn = list(tn)
 
+    pr = []
+    if len(sys.argv) > 4:
+        pr = set()
+        for fn in sys.argv[4].split():
+            pr1 = set(open(fn).read().split())
+            pr1 &= set(emb.columns)
+            pr |= pr1
+        pr = list(pr)
+    pr = set(pr)
+
     assert len(set(tp) & set(tn)) == 0
 
     # Train the model
     print("\nTraining classifier...")
-    extra_args = dict(C=100.0, penalty='l1', solver='liblinear')
-    trained_model, train_acc, test_acc = train_document_classifier(emb, tp, tn, test=0.0, bgsize=25, random_state=None, **extra_args)
-    
+    # 
+    extra_args = dict(test=0.0, C=100.0, penalty='l1', solver='liblinear', bgsize=25)
+    trained_model, train_acc, test_acc = train_document_classifier(emb, tp, tn, random_state=None, **extra_args)
+    print("NZ Coeffs:",sum(*[1*(xi>0) for xi in trained_model.coef_]))
+
     rows = []
+    rows1 = []
     for pracc in emb.columns:
         intrain = "training" if (pracc in train_acc) else ""
+        inpr = "predict" if (pracc in pr) else ""
         intp = "TP" if (pracc in tp) else ("TN" if (pracc in tn) else "")
 
         emb1 = emb[[pracc]].values.T
-        prediction = trained_model.predict(emb1)
         probability = trained_model.predict_proba(emb1)[0][1]
         
         row = dict(probability=probability,pracc=pracc,group=intp,intp=(1 if intp == "TP" else 0),
                    intn=(1 if intp == "TN" else 0), training=(1 if intrain else 0))
         rows.append(row)
 
-        if probability <= 0.8 or intp:
+        if not inpr and (probability <= 0.8):
             continue
 
-        print(pracc,round(prediction[0],3),round(probability,3),intp,intrain)
+        rows1.append([pracc,round(probability,3),intp,intrain,inpr])
+    
+    for row in sorted(rows1,key=lambda l: -l[1]):
+        print(*row)
     
     df = pd.DataFrame(rows).set_index('pracc')
     # print(df)
@@ -176,8 +192,8 @@ if __name__ == "__main__":
 
     # fig, axes = plt.subplots(1, 2, figsize=(12, 5), sharex=True)
     # , ax=axes[0]
-    # sns.histplot(df1,x='probability', hue='group')
-    # plt.show()
+    sns.histplot(df1,x='probability',binrange=(0,1),binwidth=0.05,hue='group')
+    plt.show()
     # ax=axes[1], 
-    sns.histplot(df2,x='probability',binrange=(0,1),binwidth=0.1,log_scale=(False, True))
+    sns.histplot(df2,x='probability',binrange=(0,1),binwidth=0.05,log_scale=(False, True))
     plt.show()
