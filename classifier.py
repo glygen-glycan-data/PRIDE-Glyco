@@ -167,10 +167,17 @@ if __name__ == "__main__":
         print(pracc,round(prediction[0],3),round(probability,3),intp,intrain)
     
     df = pd.DataFrame(rows).set_index('pracc')
-    print(df)
+    # print(df)
     df1 = df[df['group']!=""]
+    df2 = df[(df['group']=="") & (df['probability']>0.001)]
+    # print(df2)
 
     # print(df1[df1['probability']<0.3])
 
-    sns.histplot(df1,x='probability',hue='group',kde=True)
+    # fig, axes = plt.subplots(1, 2, figsize=(12, 5), sharex=True)
+    # , ax=axes[0]
+    # sns.histplot(df1,x='probability', hue='group')
+    # plt.show()
+    # ax=axes[1], 
+    sns.histplot(df2,x='probability',binrange=(0,1),binwidth=0.1,log_scale=(False, True))
     plt.show()
